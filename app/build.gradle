@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def apikeyPropertiesFile = rootProject.file("key.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
@@ -10,17 +14,14 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "ApiKey", apikeyProperties['apikey'])
     }
     buildTypes {
         debug{
-            buildConfigField 'String', "ApiKey", consumer_key
-            resValue 'string', "api_key", consumer_key
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', "ApiKey", consumer_key
-            resValue 'string', "api_key", consumer_key
         }
     }
 }

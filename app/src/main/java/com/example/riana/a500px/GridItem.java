@@ -7,6 +7,10 @@ package com.example.riana.a500px;
 public class GridItem {
     private String image;
     private String title;
+    private Double rating;
+    private String description;
+    private String user_firstname;
+    private String user_lastname;
 
     public GridItem() {
         super();
