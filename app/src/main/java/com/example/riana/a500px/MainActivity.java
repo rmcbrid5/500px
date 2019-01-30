@@ -3,10 +3,12 @@ package com.example.riana.a500px;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,16 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
     private GridView mGridView;
     private ProgressBar mProgressBar;
-
+    private ActionBar actionBar;
     private ImageAdapter mGridAdapter;
     private ArrayList<GridItem> mGridData;
     private String FEED_URL;
-
+    private Button nextBtn, prevBtn;
+    private int currentPage=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        nextBtn = findViewById(R.id.next);
+        prevBtn = findViewById(R.id.prev);
+        prevBtn.setEnabled(false);
         mGridView = (GridView) findViewById(R.id.gridView);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -49,8 +54,34 @@ public class MainActivity extends AppCompatActivity {
         mGridAdapter = new ImageAdapter(this, R.layout.grid_item_layout, mGridData);
         mGridView.setAdapter(mGridAdapter);
 
+        //set on click listener for the "next" button
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentPage += 1;
+                mGridData.clear();
+                new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=100&page="+currentPage +
+                        "&consumer_key="+BuildConfig.ApiKey);
+                prevBtn.setEnabled(true);
+            }
+        });
+
+        //set on click listener for the "prev" button
+        prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentPage -= 1;
+                mGridData.clear();
+                new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=100&page="+currentPage +
+                        "&consumer_key="+BuildConfig.ApiKey);
+                if(currentPage == 1){
+                    prevBtn.setEnabled(false);
+                }
+            }
+        });
         //get the full path of the API call
-        FEED_URL = "https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&consumer_key="+BuildConfig.ApiKey;
+        FEED_URL = "https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=100&page="+currentPage +
+                "&consumer_key="+BuildConfig.ApiKey;
         //Grid view click event
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -99,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // Create Apache HttpClient
                 HttpClient httpclient = new DefaultHttpClient();
-                Log.d("TEST", String.valueOf(httpclient));
-                Log.d("TEST1", params[0]);
                 HttpResponse httpResponse = httpclient.execute(new HttpGet(params[0]));
                 int statusCode = httpResponse.getStatusLine().getStatusCode();
 

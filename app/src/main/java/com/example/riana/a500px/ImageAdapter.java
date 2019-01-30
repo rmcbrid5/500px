@@ -31,7 +31,6 @@ class ImageAdapter extends ArrayAdapter<GridItem> {
         this.mGridData = mGridData;
     }
 
-
     /**
      * Updates grid data and refresh grid items.
      *
