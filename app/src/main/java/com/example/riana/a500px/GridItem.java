@@ -5,23 +5,31 @@ package com.example.riana.a500px;
  */
 
 public class GridItem {
-    private String image;
+    private String image_small;
+    private String image_large;
     private String title;
     private Double rating;
     private String description;
-    private String user_firstname;
-    private String user_lastname;
+    private String user;
 
     public GridItem() {
         super();
     }
 
-    public String getImage() {
-        return image;
+    public String getSmallImage() {
+        return image_small;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setSmallImage(String image) {
+        this.image_small = image;
+    }
+
+    public String getLargeImage(){
+        return image_large;
+    }
+
+    public void setLargeImage(String image){
+        this.image_large = image;
     }
 
     public String getTitle() {
@@ -30,5 +38,29 @@ public class GridItem {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }

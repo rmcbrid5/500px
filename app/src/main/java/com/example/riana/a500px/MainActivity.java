@@ -3,7 +3,7 @@ package com.example.riana.a500px;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private GridView mGridView;
@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
         mGridView.setAdapter(mGridAdapter);
 
         //get the full path of the API call
-        FEED_URL = "https://api.500px.com/v1/photos?feature=popular&consumer_key="+BuildConfig.ApiKey;
+        FEED_URL = "https://api.500px.com/v1/photos?feature=popular&image_size=2,6&consumer_key="+BuildConfig.ApiKey;
         //Grid view click event
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -74,7 +74,10 @@ public class MainActivity extends ActionBarActivity {
                         putExtra("width", imageView.getWidth()).
                         putExtra("height", imageView.getHeight()).
                         putExtra("title", item.getTitle()).
-                        putExtra("image", item.getImage());
+                        putExtra("image", item.getLargeImage()).
+                        putExtra("user", item.getUser()).
+                        putExtra("rating", item.getRating()).
+                        putExtra("description", item.getDescription());
 
                 //Start details activity
                 startActivity(intent);
@@ -165,10 +168,21 @@ public class MainActivity extends ActionBarActivity {
                 item.setTitle(title);
                 JSONArray attachments = post.getJSONArray("images");
                 if (null != attachments && attachments.length() > 0) {
-                    JSONObject attachment = attachments.getJSONObject(0);
-                    if (attachment != null)
-                        item.setImage(attachment.getString("url"));
+                    JSONObject attachment1 = attachments.getJSONObject(0);
+                    if (attachment1 != null)
+                        item.setSmallImage(attachment1.getString("https_url"));
+                    JSONObject attachment2 = attachments.getJSONObject(1);
+                    if (attachment2 != null)
+                        item.setLargeImage(attachment2.getString("https_url"));
                 }
+                JSONObject user = post.getJSONObject("user");
+                String userName = user.optString("fullname");
+                item.setUser(userName);
+                Double rating = post.optDouble("highest_rating");
+                Log.d("TEST", String.valueOf(rating));
+                item.setRating(rating);
+                String description = post.optString("description");
+                item.setDescription(description);
                 mGridData.add(item);
             }
         } catch (JSONException e) {

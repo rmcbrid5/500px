@@ -2,12 +2,10 @@ package com.example.riana.a500px;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,7 +51,7 @@ class ImageAdapter extends ArrayAdapter<GridItem> {
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ViewHolder();
-            holder.titleTextView = (TextView) row.findViewById(R.id.grid_item_title);
+            //holder.titleTextView = (TextView) row.findViewById(R.id.grid_item_title);
             holder.imageView = (ImageView) row.findViewById(R.id.grid_item_image);
             row.setTag(holder);
         } else {
@@ -61,9 +59,9 @@ class ImageAdapter extends ArrayAdapter<GridItem> {
         }
 
         GridItem item = mGridData.get(position);
-        holder.titleTextView.setText(Html.fromHtml(item.getTitle()));
+        //holder.titleTextView.setText(Html.fromHtml(item.getTitle()));
 
-        Picasso.with(mContext).load(item.getImage()).into(holder.imageView);
+        Picasso.with(mContext).load(item.getSmallImage()).into(holder.imageView);
         return row;
     }
 

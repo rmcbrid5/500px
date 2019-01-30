@@ -2,11 +2,13 @@ package com.example.riana.a500px;
 
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
@@ -21,17 +23,19 @@ import com.squareup.picasso.Picasso;
  * Created by riana on 2019-01-26.
  */
 
-public class FullImageActivity extends ActionBarActivity {
+public class FullImageActivity extends AppCompatActivity {
     private static final int ANIM_DURATION = 600;
     private TextView titleTextView;
     private ImageView imageView;
+    private TextView descriptionTextView;
+    private TextView ratingTextView;
 
     private int mLeftDelta;
     private int mTopDelta;
     private float mWidthScale;
     private float mHeightScale;
 
-    private FrameLayout frameLayout;
+    private ConstraintLayout frameLayout;
     private ColorDrawable colorDrawable;
 
     private int thumbnailTop;
@@ -39,6 +43,7 @@ public class FullImageActivity extends ActionBarActivity {
     private int thumbnailWidth;
     private int thumbnailHeight;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,17 +63,30 @@ public class FullImageActivity extends ActionBarActivity {
 
         String title = bundle.getString("title");
         String image = bundle.getString("image");
+        String user = bundle.getString("user");
+        String description = bundle.getString("description");
+        Double rating = bundle.getDouble("rating");
+        //initialize and set the image title
+        titleTextView = (TextView) findViewById(R.id.title);
+        titleTextView.setText(Html.fromHtml(title) + " - " + Html.fromHtml(user));
 
         //initialize and set the image description
-        titleTextView = (TextView) findViewById(R.id.title);
-        titleTextView.setText(Html.fromHtml(title));
+        descriptionTextView = findViewById(R.id.description);
+        descriptionTextView.setText(Html.fromHtml(description));
+
+        //initialize and set the image rating
+        ratingTextView = findViewById(R.id.rating);
+        ratingTextView.setText(String.valueOf(rating));
+//        //initialize and set the image user
+//        userTextView = findViewById(R.id.user);
+//        userTextView.setText(Html.fromHtml(user));
 
         //Set image url
         imageView = (ImageView) findViewById(R.id.grid_item_image);
         Picasso.with(this).load(image).into(imageView);
 
         //Set the background color to black
-        frameLayout = (FrameLayout) findViewById(R.id.main_background);
+        frameLayout = (ConstraintLayout) findViewById(R.id.main_background);
         colorDrawable = new ColorDrawable(Color.BLACK);
         frameLayout.setBackground(colorDrawable);
 
