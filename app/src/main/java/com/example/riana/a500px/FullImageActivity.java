@@ -13,7 +13,6 @@ import android.text.Html;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,6 +71,10 @@ public class FullImageActivity extends AppCompatActivity {
 
         //initialize and set the image description
         descriptionTextView = findViewById(R.id.description);
+        assert description != null;
+        if(description.equals("null")){
+            description="";
+        }
         descriptionTextView.setText(Html.fromHtml(description));
 
         //initialize and set the image rating

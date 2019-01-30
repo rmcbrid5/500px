@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mGridView.setAdapter(mGridAdapter);
 
         //get the full path of the API call
-        FEED_URL = "https://api.500px.com/v1/photos?feature=popular&image_size=2,6&consumer_key="+BuildConfig.ApiKey;
+        FEED_URL = "https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&consumer_key="+BuildConfig.ApiKey;
         //Grid view click event
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -182,7 +182,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TEST", String.valueOf(rating));
                 item.setRating(rating);
                 String description = post.optString("description");
-                item.setDescription(description);
+                if(description==null||description.isEmpty()){
+                    item.setDescription(" ");
+                }
+                else{
+                    item.setDescription(description);
+                }
                 mGridData.add(item);
             }
         } catch (JSONException e) {
