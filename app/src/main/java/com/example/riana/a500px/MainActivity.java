@@ -31,22 +31,20 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private GridView mGridView;
     private ProgressBar mProgressBar;
     private ActionBar actionBar;
     private ImageAdapter mGridAdapter;
     private ArrayList<GridItem> mGridData;
-    private String FEED_URL;
-    private Button nextBtn, prevBtn;
+    private Button prevBtn;
     private int currentPage=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        nextBtn = findViewById(R.id.next);
+        Button nextBtn = findViewById(R.id.next);
         prevBtn = findViewById(R.id.prev);
         prevBtn.setEnabled(false);
-        mGridView = (GridView) findViewById(R.id.gridView);
+        GridView mGridView = (GridView) findViewById(R.id.gridView);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         //Initialize with empty data
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 currentPage += 1;
                 mGridData.clear();
-                new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=100&page="+currentPage +
+                new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=30&page="+currentPage +
                         "&consumer_key="+BuildConfig.ApiKey);
                 prevBtn.setEnabled(true);
             }
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 currentPage -= 1;
                 mGridData.clear();
-                new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=100&page="+currentPage +
+                new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=30&page="+currentPage +
                         "&consumer_key="+BuildConfig.ApiKey);
                 if(currentPage == 1){
                     prevBtn.setEnabled(false);
@@ -80,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //get the full path of the API call
-        FEED_URL = "https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=100&page="+currentPage +
-                "&consumer_key="+BuildConfig.ApiKey;
+        String FEED_URL = "https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=30&page=" + currentPage +
+                "&consumer_key=" + BuildConfig.ApiKey;
         //Grid view click event
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
