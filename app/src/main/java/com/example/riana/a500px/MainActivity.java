@@ -37,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<GridItem> mGridData;
     private Button prevBtn;
     private int currentPage=1;
+    private int totalPages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button nextBtn = findViewById(R.id.next);
+        final Button nextBtn = findViewById(R.id.next);
         prevBtn = findViewById(R.id.prev);
         prevBtn.setEnabled(false);
         GridView mGridView = (GridView) findViewById(R.id.gridView);
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=30&page="+currentPage +
                         "&consumer_key="+BuildConfig.ApiKey);
                 prevBtn.setEnabled(true);
+                if(currentPage == totalPages){
+                    nextBtn.setEnabled(false);
+                }
             }
         });
 
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 if(currentPage == 1){
                     prevBtn.setEnabled(false);
                 }
+                nextBtn.setEnabled(true);
             }
         });
         //get the full path of the API call
@@ -185,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
     private void parseResult(String result) {
         try {
             JSONObject response = new JSONObject(result);
+            totalPages = response.optInt("total_pages");
             JSONArray posts = response.optJSONArray("photos");
             GridItem item;
             for (int i = 0; i < posts.length(); i++) {
