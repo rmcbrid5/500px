@@ -77,9 +77,6 @@ public class FullImageActivity extends AppCompatActivity {
         //initialize and set the image rating
         ratingTextView = findViewById(R.id.rating);
         ratingTextView.setText(String.valueOf(rating));
-//        //initialize and set the image user
-//        userTextView = findViewById(R.id.user);
-//        userTextView.setText(Html.fromHtml(user));
 
         //Set image url
         imageView = (ImageView) findViewById(R.id.grid_item_image);
@@ -125,9 +122,7 @@ public class FullImageActivity extends AppCompatActivity {
      */
     public void enterAnimation() {
 
-        // Set starting values for properties we're going to animate. These
-        // values scale and position the full size version down to the thumbnail
-        // size/location, from which we'll animate it back up
+        // Set starting values for properties we're going to animate
         imageView.setPivotX(0);
         imageView.setPivotY(0);
         imageView.setScaleX(mWidthScale);
