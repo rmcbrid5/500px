@@ -2,4 +2,6 @@
     <string name="app_name">500px Popular</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="popular">Popular</string>
+    <string name="trending">Trending right now</string>
 </resources>

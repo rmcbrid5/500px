@@ -12,16 +12,46 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/gridView"
+        app:layout_constraintBottom_toTopOf="@+id/popular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo1" />
 
+    <TextView
+        android:id="@+id/popular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/popular"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/trending"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:layout_marginRight="8dp" />
+
+    <TextView
+        android:id="@+id/trending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/trending"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/gridView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/popular" />
+
     <GridView
         android:id="@+id/gridView"
         android:layout_width="fill_parent"
-        android:layout_height="490dp"
+        android:layout_height="447dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -33,7 +63,8 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
         android:verticalSpacing="5dp"
-        app:layout_constraintBottom_toTopOf="@id/next" />
+        app:layout_constraintBottom_toTopOf="@id/next"
+        app:layout_constraintTop_toBottomOf="@id/trending" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -58,29 +89,37 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
-        android:layout_toEndOf="@+id/progressBar"
-        android:layout_toRightOf="@+id/progressBar"
+        android:layout_toLeftOf="@+id/guide"
+        android:layout_toStartOf="@+id/guide"
         android:text="@string/previous"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/next"
-        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintEnd_toStartOf="@+id/guide"
+        app:layout_constraintHorizontal_bias="0.393"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gridView"
-        app:layout_constraintVertical_bias="0.533" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5"/>
 
     <Button
         android:id="@+id/next"
-        android:layout_width="wrap_content"
+        android:layout_width="87dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_toEndOf="@+id/prev"
-        android:layout_toRightOf="@+id/prev"
+        android:layout_toRightOf="@+id/guide"
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/guide"
+        app:layout_constraintTop_toBottomOf="@+id/gridView" />
+
 </android.support.constraint.ConstraintLayout>

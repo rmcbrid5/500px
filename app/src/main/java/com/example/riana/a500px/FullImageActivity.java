@@ -50,9 +50,6 @@ public class FullImageActivity extends AppCompatActivity {
         //Setting details screen layout
         setContentView(R.layout.full_image);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         //retrieves the thumbnail data
         Bundle bundle = getIntent().getExtras();
         thumbnailTop = bundle.getInt("top");

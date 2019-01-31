@@ -57,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 currentPage += 1;
+                //clear the data that is already in the gridview
                 mGridData.clear();
+                //add the data from the next page
                 new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=30&page="+currentPage +
                         "&consumer_key="+BuildConfig.ApiKey);
                 prevBtn.setEnabled(true);
@@ -69,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 currentPage -= 1;
+                //clear the data that is already in the gridview
                 mGridData.clear();
+                //add the data from the previous page
                 new AsyncHttpTask().execute("https://api.500px.com/v1/photos?feature=popular&image_size=2,2048&rpp=30&page="+currentPage +
                         "&consumer_key="+BuildConfig.ApiKey);
                 if(currentPage == 1){
@@ -89,15 +93,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, FullImageActivity.class);
                 ImageView imageView = (ImageView) v.findViewById(R.id.grid_item_image);
 
-                // Interesting data to pass across are the thumbnail size/location, the
-                // resourceId of the source bitmap, the picture description, and the
-                // orientation (to avoid returning back to an obsolete configuration if
-                // the device rotates again in the meantime)
-
                 int[] screenLocation = new int[2];
                 imageView.getLocationOnScreen(screenLocation);
 
-                //Pass the image title and url to DetailsActivity
+                //Pass the image information to FullImageActivity
                 intent.putExtra("left", screenLocation[0]).
                         putExtra("top", screenLocation[1]).
                         putExtra("width", imageView.getWidth()).
@@ -126,12 +125,12 @@ public class MainActivity extends AppCompatActivity {
         protected Integer doInBackground(String... params) {
             Integer result = 0;
             try {
-                // Create Apache HttpClient
+                // Create HttpClient
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpResponse httpResponse = httpclient.execute(new HttpGet(params[0]));
                 int statusCode = httpResponse.getStatusLine().getStatusCode();
 
-                // 200 represents HTTP OK
+                // HTTP OK
                 if (statusCode == 200) {
                     String response = streamToString(httpResponse.getEntity().getContent());
                     parseResult(response);
@@ -149,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            // Download complete. Lets update UI
+            // Download completed
 
             if (result == 1) {
                 mGridAdapter.setGridData(mGridData);
@@ -180,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Parsing the feed results and get the list
-     *
+     * Setting all of the information used by the gridview item
      * @param result
      */
     private void parseResult(String result) {
